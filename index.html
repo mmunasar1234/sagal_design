@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1024">
+  <title>Sagal Design - Invoice</title>
+  <!-- Use a Google Font similar to the one in the image -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #800080;
+      /* Purple/Magenta for Logo */
+      --header-blue: #366092;
+      /* Table Header Blue */
+      --accent-red: #FF0000;
+      /* Invoice No Red */
+      --border-color: #ccc;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f0f0;
+      color: #000;
+    }
+
+    .page-container {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      margin: 0 auto;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    /* Edit Mode Styles */
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    textarea,
+    select {
+      border: 1px solid transparent;
+      /* Hide borders by default for clean look */
+      background: rgba(0, 0, 0, 0.02);
+      /* Slight background to show editable areas */
+      width: 100%;
+      font-family: inherit;
+      font-size: inherit;
+      padding: 2px 4px;
+      box-sizing: border-box;
+    }
+
+    input:hover,
+    textarea:hover,
+    select:hover {
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+    }
+
+    textarea {
+      resize: none;
+      overflow: hidden;
+    }
+
+    /* Hide specific UI elements when printing */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+
+      .page-container {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        height: auto;
+        padding: 0;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      input,
+      textarea,
+      select {
+        background: transparent !important;
+        border: none !important;
+        /* Remove dropdown arrow for print */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      /* Ensure background colors print */
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Better Pagination */
+      tr {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      thead {
+        display: table-header-group;
+      }
+
+      tfoot {
+        display: table-footer-group;
+      }
+    }
+
+    /* Header Section */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+
+    .header-left {
+      font-size: 14px;
+    }
+
+    .company-name {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .company-details {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .header-right {
+      text-align: right;
+    }
+
+    .date-row {
+      font-weight: bold;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .invoice-no {
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    /* Invoice Title Bar */
+    .invoice-title-bar {
+      text-align: center;
+      border-top: 1px solid #999;
+      border-bottom: 1px solid #999;
+      padding: 2px 0;
+      margin: 10px 0;
+      font-size: 14px;
+      background: #f9f9f9;
+      font-weight: bold;
+    }
+
+    /* Client Info Box */
+    .client-info-box {
+      border: 1px solid #999;
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    .client-info-left {
+      flex: 1.2;
+      padding: 8px;
+    }
+
+    .client-info-right {
+      flex: 1;
+      padding: 8px;
+      border-left: 1px solid #999;
+    }
+
+    .info-row {
+      display: flex;
+      margin-bottom: 4px;
+      align-items: baseline;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-right: 5px;
+      white-space: nowrap;
+    }
+
+    /* Bank / Ceremony Bar */
+    .bank-ceremony-bar {
+      border: 1px solid #999;
+      display: flex;
+      margin-bottom: 20px;
+      font-weight: bold;
+      background: #fff;
+    }
+
+    .bank-info {
+      flex: 1;
+      padding: 5px 8px;
+      border-right: 1px solid #999;
+      display: flex;
+      align-items: center;
+    }
+
+    .ceremony-info {
+      flex: 1;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th {
+      background-color: var(--header-blue);
+      color: white;
+      font-weight: bold;
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #999;
+      font-size: 14px;
+    }
+
+    td {
+      border: 1px solid #999;
+      padding: 8px;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    .col-no {
+      width: 40px;
+      text-align: center;
+      background: #eef;
+    }
+
+    .col-desc {
+      text-align: left;
+    }
+
+    .col-qty {
+      width: 60px;
+      text-align: center;
+    }
+
+    .col-price {
+      width: 100px;
+      text-align: right;
+    }
+
+    .col-amount {
+      width: 100px;
+      text-align: right;
+      font-weight: bold;
+    }
+
+    /* Total Section */
+    .total-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 40px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .total-wrapper {
+      border-bottom: 2px solid var(--accent-red);
+      padding-bottom: 2px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    /* Footer */
+    .footer-payment {
+      margin-bottom: 40px;
+      font-size: 14px;
+    }
+
+    .signature-area {
+      position: relative;
+      text-align: right;
+      margin-bottom: 30px;
+      height: 100px;
+      padding-right: 20px;
+    }
+
+    .stamp-visual {
+      position: absolute;
+      bottom: 0px;
+      right: 10px;
+      width: 120px;
+      height: 120px;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .type-your-text {
+      position: absolute;
+      right: 150px;
+      bottom: 40px;
+      font-style: italic;
+      color: #666;
+      font-size: 12px;
+    }
+
+    .bottom-footer {
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+      font-size: 12px;
+      text-align: center;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    /* Controls */
+    .controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .btn {
+      background: #366092;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-bottom: 5px;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background: #2a4d75;
+    }
+
+    .btn-add {
+      background: #28a745;
+    }
+
+    .btn-add:hover {
+      background: #218838;
+    }
+
+    .btn-delete {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+
+
+<body>
+  <!-- Controls -->
+  <div class="controls no-print">
+    <h3 style="margin-top:0;">Invoice Actions</h3>
+    <button class="btn btn-add" onclick="addRow()">+ Add Item Row</button>
+    <button class="btn" onclick="window.print()">Save as PDF / Print</button>
+    <div style="font-size: 12px; margin-top: 10px; color: #666;">
+      Tip: Click on any text on the invoice to edit it.
+    </div>
+  </div>
+
+  <!-- Main Quotation Page -->
+  <div class="page-container" id="invoice">
+    <!-- Header -->
+    <header>
+      <div class="header-left" style="flex: 1;">
+        <!-- Place Logo Text/Image Here -->
+        <div class="logo-area" style="margin-bottom: 10px;"><img src="logo.svg" alt="Sagal Design Logo"
+            style="max-height: 120px; display: block;"
+            onerror="this.src='logo.png'; this.onerror=function(){this.nextElementSibling.style.display='block'; this.style.display='none';};">
+          <div style="display:none;">
+            <h1
+              style="margin: 0; font-size: 28px; color: var(--primary-color); font-weight: bold; text-transform: uppercase;">
+              SAGAL DESIGN</h1>
+            <div style="font-size: 14px; color: var(--primary-color); letter-spacing: 1px;">& EVENT MANAGEMENT
+            </div>
+          </div>
+        </div>
+        <div class="company-details" style="font-size: 14px; line-height: 1.5; color: #555;"><strong>Benadir,
+            Opposite Kakaal Hospital</strong><br>Mogadishu,
+          Benadir,
+          Somalia<br>
+          <div style="margin-top: 5px;">0615179116 / 0615905680<br>sagaldesin10@gmail.com </div>
+        </div>
+      </div>
+      <div class="header-right" style="text-align: right;">
+        <div class="date-row">Date: <input type="date" id="dateInput"
+            style="width: 130px; text-align: right; font-family: inherit;"></div>
+        <div class="date-row" style="margin-top: 5px;">NO: <input type="text" class="invoice-no" placeholder="0000"
+            style="width: 60px; text-align: right;"></div>
+      </div>
+    </header>
+    <!-- Invoice Title -->
+    <div class="invoice-title-bar">Invoice </div>
+    <!-- Client Info -->
+    <div class="client-info-box">
+      <div class="client-info-left">
+        <div class="info-row"><span class="label">Name:</span><input type="text" value="" placeholder="Client Name">
+        </div>
+        <div class="info-row"><span class="label">Telephone:</span><input type="text" value=""
+            placeholder="Phone Number"></div>
+      </div>
+      <div class="client-info-right">
+        <div class="info-row"><span class="label">Venue:</span><input type="text" value="" placeholder="Venue">
+        </div>
+        <div class="info-row"><span class="label">Address:</span><input type="text" value="" placeholder="Address">
+        </div>
+      </div>
+    </div>
+    <!-- Bank & Ceremony Date -->
+    <div class="bank-ceremony-bar">
+      <div class="bank-info">Salaam bank acc. <input type="text" value="" placeholder="Account Number"
+          style="width: 150px; margin-left: 5px; font-weight: bold;"></div>
+      <div class="ceremony-info"><span style="margin-right: 5px;">Ceremony Date:</span><input type="date"
+          style="flex: 1; font-weight: bold; font-family: inherit;"></div>
+    </div>
+    <!-- Items Table -->
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-no">Item No</th>
+            <th class="col-desc">Description</th>
+            <th class="col-qty">Qtr</th>
+            <!-- Keep "Qtr" as in image -->
+            <th class="col-price">U. price ($)</th>
+            <th class="col-amount">Amount ($)</th>
+            <th class="no-print" style="width: 30px; background: #fff; border: none;"></th>
+          </tr>
+        </thead>
+        <tbody id="itemsTableBody">
+          <!-- Rows will be dynamic -->
+        </tbody>
+      </table>
+    </div>
+    <!-- Total -->
+    <div class="total-section">
+      <div class="total-wrapper"><span>Total price</span><span
+          style="width: 50px; border-bottom: 1px solid #000; display: inline-block;"></span><span
+          id="grandTotal">$2700</span></div>
+    </div>
+    <!-- Footer Payment Note -->
+    <div class="footer-payment">Pleas pay by salaam bank 33646213 (sagal design event management)
+    </div>
+    <!-- Signature Area -->
+    <div class="signature-area">
+      <div>Saxiixa Lacaq Qabaha</div>
+      <div class="type-your-text">Type your text</div>
+      <!-- Realistic Stamp Design --><svg class="stamp-visual" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer Circle (Double line) -->
+        <circle cx="100" cy="100" r="90" fill="none" stroke="#2a4d75" stroke-width="3" />
+        <circle cx="100" cy="100" r="82" fill="none" stroke="#2a4d75" stroke-width="1" />
+        <!-- Inner Circle -->
+        <circle cx="100" cy="100" r="60" fill="none" stroke="#2a4d75" stroke-width="1" />
+        <!-- Text on Path (Top) -->
+        <path id="curveTop" d="M 30,100 A 70,70 0 0,1 170,100" fill="none" /><text width="200" fill="#2a4d75"
+          font-weight="bold" font-size="22" letter-spacing="2">
+          <textPath xlink:href="#curveTop" startOffset="50%" text-anchor="middle">SAGAL
+            DESIGN</textPath>
+        </text>
+        <!-- Text on Path (Bottom) -->
+        <path id="curveBottom" d="M 30,100 A 70,70 0 0,0 170,100" fill="none" /><text width="200" fill="#2a4d75"
+          font-weight="bold" font-size="14" letter-spacing="1">
+          <textPath xlink:href="#curveBottom" startOffset="50%" text-anchor="middle">EVENT
+            MANAGEMENT</textPath>
+        </text>
+        <!-- Center Logo/Icon --><text x="100" y="115" text-anchor="middle" font-size="50" font-weight="bold"
+          fill="#2a4d75" font-family="Arial">SD</text>
+        <!-- Roughness/Texture Overlay -->
+        <rect x="0" y="0" width="200" height="200" fill="url(#noise)" opacity="0.3" />
+      </svg>
+      <div style="margin-top: 50px; margin-right: 10px;">_______________________</div>
+    </div>
+    <!-- Bottom Footer -->
+    <div class="bottom-footer">Shirkadda Sagal Design waxay soo dhaweyneysaa inay idin kala qeyb
+      qaadato Fantas yihiina Gaarka ah Ama kan Guud<br>Waxaan Diyaar kuugu nahay Macmiil inan
+      kuugu Shaqeeno sida ugu wanaagsan uguna macquul san </div>
+  </div>
+  <script> // Default Data logic
+
+    function init() {
+      const tbody = document.getElementById('itemsTableBody');
+
+      // Add 1 empty row by default
+      if (tbody.rows.length === 0) {
+        addRow("", "", "");
+        addRow("", "", "");
+        addRow("", "", "");
+        addRow("", "", "");
+      }
+
+      calculateTotal();
+    }
+
+    function addRow(desc = "", qty = "", price = "") {
+      const tbody = document.getElementById('itemsTableBody');
+      const rowCount = tbody.rows.length + 1;
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+                <td class="col-no">${rowCount}</td>
+                <td class="col-desc">
+                  <textarea rows="1" placeholder="Description" oninput="autoResize(this)">${desc}</textarea>
+                </td>
+                <td class="col-qty"><input type="number" value="${qty}" min="0" step="0.5" oninput="calculateRow(this)" placeholder="0"></td>
+                <td class="col-price"><input type="number" value="${price}" min="0" step="0.01" oninput="calculateRow(this)" placeholder="0.00"></td>
+                <td class="col-amount"><input type="text" value="$0" readonly></td>
+                <td class="no-print" style="border:none;"><button class="btn-delete" onclick="removeRow(this)">X</button></td>
+            `;
+      tbody.appendChild(tr);
+
+      // Auto-resize the new textarea if it has content
+      const textarea = tr.querySelector('textarea');
+      if (desc) autoResize(textarea);
+    }
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    function removeRow(btn) {
+      const row = btn.closest('tr');
+      row.remove();
+      renumberRows();
+      calculateTotal();
+    }
+
+    function renumberRows() {
+      const tbody = document.getElementById('itemsTableBody');
+
+      Array.from(tbody.rows).forEach((row, index) => {
+        row.querySelector('.col-no').innerText = index + 1;
+      });
+    }
+
+    function calculateRow(input) {
+      const row = input.closest('tr');
+      const qty = parseFloat(row.querySelector('.col-qty input').value) || 0;
+      const price = parseFloat(row.querySelector('.col-price input').value) || 0;
+      const amount = qty * price;
+      // Update the amount field
+      row.querySelector('.col-amount input').value = "$" + amount.toFixed(0);
+      calculateTotal();
+    }
+
+    function calculateTotal() {
+      let total = 0;
+      const tbody = document.getElementById('itemsTableBody');
+
+      Array.from(tbody.rows).forEach(row => {
+        // remove $ and parse
+        const val = row.querySelector('.col-amount input').value.replace(/[^0-9.-]+/g, "");
+        total += parseFloat(val) || 0;
+      });
+      document.getElementById('grandTotal').innerText = "$" + total.toFixed(0);
+    }
+
+    function loadLogo(event) {
+      const file = event.target.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const img = document.getElementById('companyLogo');
+          img.src = e.target.result;
+          img.style.display = 'block';
+          // Hide text placeholder if logo is loaded
+          const placeholder = document.getElementById('logoPlaceholder');
+          if (placeholder) placeholder.style.display = 'none';
+        }
+
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Initialize on load
+    window.onload = init;
+
+  </script>
+</body>
+
+</html>
