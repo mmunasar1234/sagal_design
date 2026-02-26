@@ -277,20 +277,61 @@
 
     /* Total Section */
     .total-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .total-wrapper {
       border-bottom: 2px solid var(--accent-red);
-      padding-bottom: 2px;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
       display: flex;
       gap: 20px;
       align-items: center;
+      justify-content: center;
+    }
+
+    /* Amount, Paid, Balance - separated and visible */
+    .amount-paid-balance {
+      display: flex;
+      justify-content: space-around;
+      gap: 30px;
+      padding: 15px;
+      border: 1px solid #999;
+      background: #f9f9f9;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .amount-paid-balance .field {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 120px;
+    }
+
+    .amount-paid-balance .field .label {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 5px;
+      font-weight: normal;
+    }
+
+    .amount-paid-balance .field input {
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+      width: 120px;
+      padding: 6px 8px;
+    }
+
+    .amount-paid-balance .field .value-display {
+      font-weight: bold;
+      font-size: 18px;
+      color: var(--accent-red);
+      min-height: 28px;
+      line-height: 28px;
     }
 
     /* Footer */
@@ -478,7 +519,22 @@
     <div class="total-section">
       <div class="total-wrapper"><span>Total price</span><span
           style="width: 50px; border-bottom: 1px solid #000; display: inline-block;"></span><span
-          id="grandTotal">$2700</span></div>
+          id="grandTotal">$0</span></div>
+      <!-- Amount, Paid, Balance - clearly separated -->
+      <div class="amount-paid-balance">
+        <div class="field">
+          <span class="label">Amount ($)</span>
+          <span class="value-display" id="totalAmountDisplay">$0</span>
+        </div>
+        <div class="field">
+          <span class="label">Paid ($)</span>
+          <input type="number" id="paidInput" value="0" min="0" step="0.01" placeholder="0" oninput="updateBalance()">
+        </div>
+        <div class="field">
+          <span class="label">Balance ($)</span>
+          <span class="value-display" id="balanceDisplay">$0</span>
+        </div>
+      </div>
     </div>
     <!-- Footer Payment Note -->
     <div class="footer-payment">Pleas pay by salaam bank 33646213 (sagal design event management)
@@ -486,7 +542,6 @@
     <!-- Signature Area -->
     <div class="signature-area">
       <div>Saxiixa Lacaq Qabaha</div>
-      <div class="type-your-text">Type your text</div>
       <!-- Realistic Stamp Design --><svg class="stamp-visual" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
         <!-- Outer Circle (Double line) -->
         <circle cx="100" cy="100" r="90" fill="none" stroke="#2a4d75" stroke-width="3" />
@@ -595,6 +650,16 @@
         total += parseFloat(val) || 0;
       });
       document.getElementById('grandTotal').innerText = "$" + total.toFixed(0);
+      document.getElementById('totalAmountDisplay').innerText = "$" + total.toFixed(0);
+      updateBalance();
+    }
+
+    function updateBalance() {
+      const totalStr = document.getElementById('totalAmountDisplay').innerText.replace(/[^0-9.-]+/g, "");
+      const total = parseFloat(totalStr) || 0;
+      const paid = parseFloat(document.getElementById('paidInput').value) || 0;
+      const balance = Math.max(0, total - paid);
+      document.getElementById('balanceDisplay').innerText = "$" + balance.toFixed(0);
     }
 
     function loadLogo(event) {
@@ -623,4 +688,3 @@
 </body>
 
 </html>
-
