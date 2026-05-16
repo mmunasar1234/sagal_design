@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1024">
-    <title>Sagal Design - Invoice</title>
+    <title>Sagal Design &amp; Interior - Invoice</title>
     <!-- Use a Google Font similar to the one in the image -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -350,31 +350,13 @@
 
         .stamp-visual {
             position: absolute;
-            bottom: 0px;
+            bottom: 0;
             right: 10px;
             width: 120px;
             height: 120px;
             opacity: 0.6;
             pointer-events: none;
             z-index: 0;
-        }
-
-        .type-your-text {
-            position: absolute;
-            right: 150px;
-            bottom: 40px;
-            font-style: italic;
-            color: #666;
-            font-size: 12px;
-        }
-
-        .bottom-footer {
-            border-top: 1px solid #ccc;
-            padding-top: 10px;
-            font-size: 12px;
-            text-align: center;
-            color: #333;
-            line-height: 1.5;
         }
 
         /* Controls */
@@ -447,15 +429,14 @@
         <header>
             <div class="header-left" style="flex: 1;">
                 <!-- Place Logo Text/Image Here -->
-                <div class="logo-area" style="margin-bottom: 10px;"><img src="logo.svg" alt="Sagal Design Logo"
+                <div class="logo-area" style="margin-bottom: 10px;"><img src="logo.svg" alt="Sagal Design &amp; Interior Logo"
                         style="max-height: 120px; display: block;"
                         onerror="this.src='logo.png'; this.onerror=function(){this.nextElementSibling.style.display='block'; this.style.display='none';};">
                     <div style="display:none;">
                         <h1
                             style="margin: 0; font-size: 28px; color: var(--primary-color); font-weight: bold; text-transform: uppercase;">
                             SAGAL DESIGN</h1>
-                        <div style="font-size: 14px; color: var(--primary-color); letter-spacing: 1px;">& INTERIOR
-                        </div>
+                        <div style="font-size: 14px; color: var(--primary-color); letter-spacing: 1px;">&amp; INTERIOR</div>
                     </div>
                 </div>
                 <div class="company-details" style="font-size: 14px; line-height: 1.5; color: #555;"><strong>Benadir,
@@ -495,7 +476,7 @@
         <div class="bank-ceremony-bar">
             <div class="bank-info">Salaam bank acc. <input type="text" value="" placeholder="Account Number"
                     style="width: 150px; margin-left: 5px; font-weight: bold;"></div>
-            <div class="ceremony-info"><span style="margin-right: 5px;">Ceremony Date:</span><input type="date"
+            <div class="ceremony-info"><span style="margin-right: 5px;">Project Date:</span><input type="date"
                     style="flex: 1; font-weight: bold; font-family: inherit;"></div>
         </div>
         <!-- Items Table -->
@@ -545,35 +526,23 @@
         <!-- Signature Area -->
         <div class="signature-area">
             <div>Saxiixa Lacaq Qabaha</div>
-            <!-- Realistic Stamp Design --><svg class="stamp-visual" viewBox="0 0 200 200"
-                xmlns="http://www.w3.org/2000/svg">
-                <!-- Outer Circle (Double line) -->
+            <svg class="stamp-visual" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="100" cy="100" r="90" fill="none" stroke="#2a4d75" stroke-width="3" />
                 <circle cx="100" cy="100" r="82" fill="none" stroke="#2a4d75" stroke-width="1" />
-                <!-- Inner Circle -->
                 <circle cx="100" cy="100" r="60" fill="none" stroke="#2a4d75" stroke-width="1" />
-                <!-- Text on Path (Top) -->
-                <path id="curveTop" d="M 30,100 A 70,70 0 0,1 170,100" fill="none" /><text width="200" fill="#2a4d75"
-                    font-weight="bold" font-size="22" letter-spacing="2">
-                    <textPath xlink:href="#curveTop" startOffset="50%" text-anchor="middle">SAGAL
-                        DESIGN</textPath>
+                <path id="curveTop" d="M 30,100 A 70,70 0 0,1 170,100" fill="none" />
+                <text fill="#2a4d75" font-weight="bold" font-size="22" letter-spacing="2">
+                    <textPath xlink:href="#curveTop" startOffset="50%" text-anchor="middle">SAGAL DESIGN</textPath>
                 </text>
-                <!-- Text on Path (Bottom) -->
-                <path id="curveBottom" d="M 30,100 A 70,70 0 0,0 170,100" fill="none" /><text width="200" fill="#2a4d75"
-                    font-weight="bold" font-size="14" letter-spacing="1">
+                <path id="curveBottom" d="M 30,100 A 70,70 0 0,0 170,100" fill="none" />
+                <text fill="#2a4d75" font-weight="bold" font-size="14" letter-spacing="1">
                     <textPath xlink:href="#curveBottom" startOffset="50%" text-anchor="middle">INTERIOR</textPath>
                 </text>
-                <!-- Center Logo/Icon --><text x="100" y="115" text-anchor="middle" font-size="50" font-weight="bold"
-                    fill="#2a4d75" font-family="Arial">SD</text>
-                <!-- Roughness/Texture Overlay -->
-                <rect x="0" y="0" width="200" height="200" fill="url(#noise)" opacity="0.3" />
+                <text x="100" y="115" text-anchor="middle" font-size="50" font-weight="bold" fill="#2a4d75"
+                    font-family="Arial">SD</text>
             </svg>
             <div style="margin-top: 50px; margin-right: 10px;">_______________________</div>
         </div>
-        <!-- Bottom Footer -->
-        <div class="bottom-footer">Shirkadda Sagal Design waxay soo dhaweyneysaa inay idin kala qeyb
-            qaadato Fantas yihiina Gaarka ah Ama kan Guud<br>Waxaan Diyaar kuugu nahay Macmiil inan
-            kuugu Shaqeeno sida ugu wanaagsan uguna macquul san </div>
     </div>
     <script> // Default Data logic
 
