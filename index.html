@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1024">
-    <title>Sagal Design &amp; Interior - Invoice</title>
+    <title>Sagal Design - Invoice</title>
     <!-- Use a Google Font similar to the one in the image -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -350,13 +350,31 @@
 
         .stamp-visual {
             position: absolute;
-            bottom: 0;
+            bottom: 0px;
             right: 10px;
             width: 120px;
             height: 120px;
             opacity: 0.6;
             pointer-events: none;
             z-index: 0;
+        }
+
+        .type-your-text {
+            position: absolute;
+            right: 150px;
+            bottom: 40px;
+            font-style: italic;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .bottom-footer {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            font-size: 12px;
+            text-align: center;
+            color: #333;
+            line-height: 1.5;
         }
 
         /* Controls */
@@ -429,14 +447,16 @@
         <header>
             <div class="header-left" style="flex: 1;">
                 <!-- Place Logo Text/Image Here -->
-                <div class="logo-area" style="margin-bottom: 10px;"><img src="logo.svg" alt="Sagal Design &amp; Interior Logo"
+                <div class="logo-area" style="margin-bottom: 10px;"><img src="logo.svg" alt="Sagal Design Logo"
                         style="max-height: 120px; display: block;"
                         onerror="this.src='logo.png'; this.onerror=function(){this.nextElementSibling.style.display='block'; this.style.display='none';};">
                     <div style="display:none;">
                         <h1
                             style="margin: 0; font-size: 28px; color: var(--primary-color); font-weight: bold; text-transform: uppercase;">
                             SAGAL DESIGN</h1>
-                        <div style="font-size: 14px; color: var(--primary-color); letter-spacing: 1px;">&amp;  EVENT MANAGEMENT</div>
+                        <div style="font-size: 14px; color: var(--primary-color); letter-spacing: 1px;">& EVENT
+                            MANAGEMENT
+                        </div>
                     </div>
                 </div>
                 <div class="company-details" style="font-size: 14px; line-height: 1.5; color: #555;"><strong>Benadir,
@@ -476,7 +496,7 @@
         <div class="bank-ceremony-bar">
             <div class="bank-info">Salaam bank acc. <input type="text" value="" placeholder="Account Number"
                     style="width: 150px; margin-left: 5px; font-weight: bold;"></div>
-            <div class="ceremony-info"><span style="margin-right: 5px;">Project Date:</span><input type="date"
+            <div class="ceremony-info"><span style="margin-right: 5px;">Ceremony Date:</span><input type="date"
                     style="flex: 1; font-weight: bold; font-family: inherit;"></div>
         </div>
         <!-- Items Table -->
@@ -500,9 +520,18 @@
         </div>
         <!-- Total -->
         <div class="total-section">
-            <div class="total-wrapper"><span>Total price</span><span
-                    style="width: 50px; border-bottom: 1px solid #000; display: inline-block;"></span><span
-                    id="grandTotal">$0</span></div>
+            <div class="total-wrapper" style="gap: 15px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <span>Discount</span>
+                    <input type="number" id="discountInput" value="0" min="0" step="0.01" placeholder="0"
+                        oninput="calculateTotal()" style="width: 60px; text-align: center; font-weight: bold; font-size: 16px; border-bottom: 1px solid #000;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <span>Total</span>
+                    <span style="width: 50px; border-bottom: 1px solid #000; display: inline-block;"></span>
+                    <span id="grandTotal">$0</span>
+                </div>
+            </div>
             <!-- Amount, Paid, Balance - clearly separated -->
             <div class="amount-paid-balance">
                 <div class="field">
@@ -521,28 +550,41 @@
             </div>
         </div>
         <!-- Footer Payment Note -->
-        <div class="footer-payment">Pleas pay by salaam bank 33646213 (sagal design interior)
+        <div class="footer-payment">Pleas pay by salaam bank 33646213 (sagal design event management)
         </div>
         <!-- Signature Area -->
         <div class="signature-area">
             <div>Saxiixa Lacaq Qabaha</div>
-            <svg class="stamp-visual" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Realistic Stamp Design --><svg class="stamp-visual" viewBox="0 0 200 200"
+                xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer Circle (Double line) -->
                 <circle cx="100" cy="100" r="90" fill="none" stroke="#2a4d75" stroke-width="3" />
                 <circle cx="100" cy="100" r="82" fill="none" stroke="#2a4d75" stroke-width="1" />
+                <!-- Inner Circle -->
                 <circle cx="100" cy="100" r="60" fill="none" stroke="#2a4d75" stroke-width="1" />
-                <path id="curveTop" d="M 30,100 A 70,70 0 0,1 170,100" fill="none" />
-                <text fill="#2a4d75" font-weight="bold" font-size="22" letter-spacing="2">
-                    <textPath xlink:href="#curveTop" startOffset="50%" text-anchor="middle">SAGAL DESIGN</textPath>
+                <!-- Text on Path (Top) -->
+                <path id="curveTop" d="M 30,100 A 70,70 0 0,1 170,100" fill="none" /><text width="200" fill="#2a4d75"
+                    font-weight="bold" font-size="22" letter-spacing="2">
+                    <textPath xlink:href="#curveTop" startOffset="50%" text-anchor="middle">SAGAL
+                        DESIGN</textPath>
                 </text>
-                <path id="curveBottom" d="M 30,100 A 70,70 0 0,0 170,100" fill="none" />
-                <text fill="#2a4d75" font-weight="bold" font-size="14" letter-spacing="1">
-                    <textPath xlink:href="#curveBottom" startOffset="50%" text-anchor="middle">INTERIOR</textPath>
+                <!-- Text on Path (Bottom) -->
+                <path id="curveBottom" d="M 30,100 A 70,70 0 0,0 170,100" fill="none" /><text width="200" fill="#2a4d75"
+                    font-weight="bold" font-size="14" letter-spacing="1">
+                    <textPath xlink:href="#curveBottom" startOffset="50%" text-anchor="middle">EVENT
+                        MANAGEMENT</textPath>
                 </text>
-                <text x="100" y="115" text-anchor="middle" font-size="50" font-weight="bold" fill="#2a4d75"
-                    font-family="Arial">SD</text>
+                <!-- Center Logo/Icon --><text x="100" y="115" text-anchor="middle" font-size="50" font-weight="bold"
+                    fill="#2a4d75" font-family="Arial">SD</text>
+                <!-- Roughness/Texture Overlay -->
+                <rect x="0" y="0" width="200" height="200" fill="url(#noise)" opacity="0.3" />
             </svg>
             <div style="margin-top: 50px; margin-right: 10px;">_______________________</div>
         </div>
+        <!-- Bottom Footer -->
+        <div class="bottom-footer">Shirkadda Sagal Design waxay soo dhaweyneysaa inay idin kala qeyb
+            qaadato Fantas yihiina Gaarka ah Ama kan Guud<br>Waxaan Diyaar kuugu nahay Macmiil inan
+            kuugu Shaqeeno sida ugu wanaagsan uguna macquul san </div>
     </div>
     <script> // Default Data logic
 
@@ -621,8 +663,16 @@
                 const val = row.querySelector('.col-amount input').value.replace(/[^0-9.-]+/g, "");
                 total += parseFloat(val) || 0;
             });
-            document.getElementById('grandTotal').innerText = "$" + total.toFixed(0);
-            document.getElementById('totalAmountDisplay').innerText = "$" + total.toFixed(0);
+
+            const discountInput = document.getElementById('discountInput');
+            const discount = parseFloat(discountInput ? discountInput.value : 0) || 0;
+            const finalTotal = Math.max(0, total - discount);
+
+            const subTotalDisplay = document.getElementById('subTotalDisplay');
+            if (subTotalDisplay) subTotalDisplay.innerText = "$" + total.toFixed(0);
+
+            document.getElementById('grandTotal').innerText = "$" + finalTotal.toFixed(0);
+            document.getElementById('totalAmountDisplay').innerText = "$" + finalTotal.toFixed(0);
             updateBalance();
         }
 
